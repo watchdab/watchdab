@@ -1,0 +1,1 @@
+Set SITE_PASSWORD secret and MY_BUCKET R2 binding in Cloudflare Pages.
