@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>/lost_signal/</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/sigil.svg" type="image/svg+xml" />
+  <!-- SOURCE-CLUE: the first key is not in the page. It is in the sound. -->
+  <!-- COMMAND: try typing HELP into the black terminal window. -->
+  <!-- REMEMBER: mirrors only answer after you ask them backward. -->
+</head>
+<body>
+  <canvas id="noiseCanvas" aria-hidden="true"></canvas>
+  <canvas id="constellationCanvas" aria-hidden="true"></canvas>
+
+  <div id="boot" class="boot-screen">
+    <pre id="bootText"></pre>
+    <button id="enterBtn" class="ghost-button hidden">ENTER ARCHIVE</button>
+  </div>
+
+  <main id="app" class="hidden">
+    <aside class="sidebar">
+      <div class="sigil-wrap">
+        <img src="assets/sigil.svg" alt="Archive sigil" class="sigil" />
+      </div>
+      <h1 data-text="/lost_signal/">/lost_signal/</h1>
+      <p class="sub">Recovered interface: <span id="sessionId"></span></p>
+
+      <nav class="nav">
+        <button data-panel="archive" class="active">archive</button>
+        <button data-panel="logs">logs</button>
+        <button data-panel="terminal">terminal</button>
+        <button data-panel="mirror">mirror</button>
+        <button data-panel="decoder">decoder</button>
+        <button data-panel="door">door</button>
+      </nav>
+
+      <div class="status-box">
+        <div>signal <span id="signalStrength">17%</span></div>
+        <div>keys <span id="keyCount">0/5</span></div>
+        <div>phase <span id="phaseName">UNSEEN</span></div>
+      </div>
+
+      <button id="panicBtn" class="tiny">do not press</button>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <span id="clock">00:00:00</span>
+        <span id="ticker">the page remembers where you stopped.</span>
+      </header>
+
+      <section id="archive" class="panel active">
+        <h2>Recovered Folders</h2>
+        <p class="warning">Not all files survived extraction. Some were afraid.</p>
+        <div class="folder-grid">
+          <article class="folder" data-folder="audio">
+            <h3>audio_logs</h3>
+            <p>Three tones. One word.</p>
+          </article>
+          <article class="folder" data-folder="coordinates">
+            <h3>coordinates</h3>
+            <p>Numbers that refuse to be places.</p>
+          </article>
+          <article class="folder locked" data-folder="missing">
+            <h3>missing_pages</h3>
+            <p>Requires KEY: LANTERN.</p>
+          </article>
+          <article class="folder" data-folder="redacted">
+            <h3>redacted_docs</h3>
+            <p>Black lines are sometimes doors.</p>
+          </article>
+          <article class="folder" data-folder="version0">
+            <h3>version_0</h3>
+            <p>The first visitor never left.</p>
+          </article>
+          <article class="folder locked" data-folder="observer">
+            <h3>observer</h3>
+            <p>Requires final phrase.</p>
+          </article>
+        </div>
+        <div id="folderOutput" class="file-output"></div>
+      </section>
+
+      <section id="logs" class="panel">
+        <h2>System Logs</h2>
+        <div class="log-controls">
+          <button id="addLog">recover next entry</button>
+          <button id="scrambleLogs">scramble</button>
+        </div>
+        <pre id="logBox" class="logbox"></pre>
+      </section>
+
+      <section id="terminal" class="panel">
+        <h2>Terminal</h2>
+        <p>Commands: <code>help</code>, <code>scan</code>, <code>keys</code>, <code>open [word]</code>, <code>say [phrase]</code>, <code>clear</code></p>
+        <div class="terminal-box">
+          <pre id="termOut"></pre>
+          <label class="prompt"><span>&gt;</span><input id="termInput" autocomplete="off" spellcheck="false" /></label>
+        </div>
+      </section>
+
+      <section id="mirror" class="panel">
+        <h2>The Mirror</h2>
+        <p>It does not read forward.</p>
+        <textarea id="mirrorInput" placeholder="Type something backward. Example: pleh"></textarea>
+        <div id="mirrorOutput" class="mirror-output">The glass is waiting.</div>
+      </section>
+
+      <section id="decoder" class="panel">
+        <h2>Decoder</h2>
+        <p>Try decoding fragments found in the archive. The machine accepts Caesar shifts, binary, and reversed text.</p>
+        <div class="decoder-grid">
+          <textarea id="cipherInput" placeholder="Paste a cipher fragment here..."></textarea>
+          <div class="decoder-actions">
+            <button data-decode="reverse">reverse</button>
+            <button data-decode="binary">binary</button>
+            <button data-decode="caesar">caesar -7</button>
+            <button data-decode="clean">clean</button>
+          </div>
+          <pre id="cipherOutput"></pre>
+        </div>
+      </section>
+
+      <section id="door" class="panel">
+        <h2>Door 17</h2>
+        <p class="warning">Five keys are required. The door is not a door until it is named.</p>
+        <div class="runes" id="runes"></div>
+        <input id="doorPhrase" placeholder="final phrase" autocomplete="off" />
+        <button id="doorBtn">knock</button>
+        <div id="doorOutput" class="door-output"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <button id="closeModal" class="close">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <audio id="tonePlayer"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
